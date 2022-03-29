@@ -9,17 +9,17 @@ const { ccclass, property } = _decorator;
 export class Board extends Component {
     //The object that will be spawned upon a click
     @property({type: Node})
-    private slotRef : Node | null = null;
+    private slotRef: Node | null = null;
 
     //Array of items listening for clicks
     @property({type: GridClickListener})
-    private listeners : GridClickListener[] = [];
+    private listeners: GridClickListener[] = [];
 
     //The size of each grid space, used for placing X's and O's
     size: number = 190;
 
     //Reference to slots that we've spawned so we can delete them on reset
-    private slotReferences : Array<Slot> = [];
+    private slotReferences: Array<Slot> = [];
     
     initialize(owner: SceneManager){
         if(this.slotReferences != null && this.slotReferences.length > 0){
@@ -28,7 +28,7 @@ export class Board extends Component {
             });
         }
         this.slotReferences = new Array<Slot>();
-        this.listeners.forEach((listener) =>{
+        this.listeners.forEach((listener) => {
             listener.registerForClick(owner);
         })
     }

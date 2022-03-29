@@ -7,38 +7,38 @@ const { ccclass, property } = _decorator;
 export class SceneManager extends Component {  
     //Server connection settings
     @property
-    private serverURL : string = "localhost";
+    private serverURL: string = "localhost";
     @property
-    private port : string = "2567";
+    private port: string = "2567";
 
     //UI Nodes
-    @property({type:Node})
-    private menuNode : Node | null = null;
-    @property({type:Node})
-    private lobbyNode : Node | null = null;
-    @property({type:Node})
-    private gameNode : Node | null = null;
-    @property({type:Node})
-    private endgameNode : Node | null = null;
+    @property({type: Node})
+    private menuNode: Node | null = null;
+    @property({type: Node})
+    private lobbyNode: Node | null = null;
+    @property({type: Node})
+    private gameNode: Node | null = null;
+    @property({type: Node})
+    private endgameNode: Node | null = null;
 
     //Game Elements
-    @property({type : Board})
-    private board : Board | null = null;
-    @property({type : Label})
-    private statusText : Label | null = null;
-    @property({type : Label})
-    private resultsText : Label | null = null;
-    @property({type:Label})
-    private timerText : Label | null = null;
+    @property({type: Board})
+    private board: Board | null = null;
+    @property({type: Label})
+    private statusText: Label | null = null;
+    @property({type: Label})
+    private resultsText: Label | null = null;
+    @property({type: Label})
+    private timerText: Label | null = null;
 
     //local private variables
-    private gameState : string = "MENU";
-    private client : Colyseus.Client | null = null;
-    private room : Colyseus.Room | null = null;
-    private countdownInterval : any;
+    private gameState: string = "MENU";
+    private client: Colyseus.Client | null = null;
+    private room: Colyseus.Room | null = null;
+    private countdownInterval: any;
 
     onLoad(){
-        let endpoint : string = `ws://${this.serverURL}:${this.port}`;
+        let endpoint: string = `ws://${this.serverURL}:${this.port}`;
         this.client = new Colyseus.Client(endpoint);
         this.resetGame();
     }
@@ -116,7 +116,7 @@ export class SceneManager extends Component {
         this.showEndgame(this.room!.sessionId == sessionId ? "You win!" : "You lose!");
     }
 
-    showEndgame(message : string){
+    showEndgame(message: string){
         this.room!.leave();
         this.resultsText!.string = message;
         this.gameState = "ENDGAME";
