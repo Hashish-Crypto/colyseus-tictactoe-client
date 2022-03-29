@@ -1,4 +1,3 @@
-
 import { _decorator, Component, instantiate, Vec2, Node} from 'cc';
 import { GridClickListener } from './gridClickListener';
 import { SceneManager } from './SceneManager';

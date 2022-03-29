@@ -1,13 +1,11 @@
-
 import { _decorator, Component, Node, Vec2 } from 'cc';
 import { SceneManager } from './SceneManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('GridClickListener')
-export class GridClickListener extends Component {
-    
+export class GridClickListener extends Component {    
     @property({type: Vec2})
-    public gridPosition : Vec2 = new Vec2(0,0);
+    public gridPosition = new Vec2(0,0);
 
     private _owner: SceneManager | null = null;
 

@@ -1,12 +1,10 @@
-
-import { _decorator, Component, Node, systemEvent, SystemEvent, Vec2, Label, Color } from 'cc';
+import { _decorator, Component, Node, Vec2, Label, Color, Input, input } from 'cc';
 import { Board } from './board';
 import Colyseus, { Room } from 'db://colyseus-sdk/colyseus.js';
 
 const { ccclass, property } = _decorator;
 @ccclass('SceneManager')
-export class SceneManager extends Component {
-  
+export class SceneManager extends Component {  
     //Server connection settings
     @property
     private serverURL : string = "localhost";
@@ -52,11 +50,11 @@ export class SceneManager extends Component {
     }
 
     onEnable () {
-        systemEvent.on(SystemEvent.EventType.MOUSE_DOWN, this.handleMouseClick, this);
+        input.on(Input.EventType.MOUSE_DOWN, this.handleMouseClick, this);
     }
 
     onDisable(){
-        this.node.off('mousedown', this.handleMouseClick);
+        input.off(Input.EventType.MOUSE_DOWN, this.handleMouseClick, this);
     }
 
     handleGameState() {
@@ -119,7 +117,7 @@ export class SceneManager extends Component {
     }
 
     showEndgame(message : string){
-        this.room!.leave()
+        this.room!.leave();
         this.resultsText!.string = message;
         this.gameState = "ENDGAME";
         this.handleGameState();
@@ -132,9 +130,9 @@ export class SceneManager extends Component {
 
     nextTurn (playerId: string) {
         if (playerId == this.room!.sessionId) {
-            this.statusText!.string = "Your move!"
+            this.statusText!.string = "Your move!";
         } else {
-            this.statusText!.string = "Opponent's turn..."
+            this.statusText!.string = "Opponent's turn...";
         }
 
         this.timerText!.string = "10";
@@ -147,14 +145,14 @@ export class SceneManager extends Component {
         console.log("Joined game!");
         this.gameState = "GAME";
         this.handleGameState();
-        this.countdownInterval = setInterval(this.turnCountdown.bind(this), 1000)
+        this.countdownInterval = setInterval(this.turnCountdown.bind(this), 1000);
     }
 
     turnCountdown () {
         var currentNumber = parseInt(this.timerText!.string, 10) - 1
     
         if (currentNumber >= 0) {
-          this.timerText!.string = currentNumber.toString()
+          this.timerText!.string = currentNumber.toString();
         }
     
         let color = this.timerText!.color;
@@ -162,12 +160,10 @@ export class SceneManager extends Component {
           this.timerText!.color.set(Color.fromHEX(color, '#934e60'));
         } else {
             this.timerText!.color.set(Color.fromHEX(color, '#000000'));
-        }
-    
+        }    
       }
 
     playerAction(pos: Vec2){
-        this.room!.send("action", { x: pos.x, y: pos.y })
-    }
-    
+        this.room!.send("action", { x: pos.x, y: pos.y });
+    }    
 }

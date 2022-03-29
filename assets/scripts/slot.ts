@@ -1,10 +1,8 @@
-
 import { _decorator, Component, Label } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Slot')
 export class Slot extends Component {
-
     @property({type:Label})
     private slotValue : Label | null = null;
 
@@ -15,7 +13,7 @@ export class Slot extends Component {
             label = "X";
       
           } else if (value === 2) {
-            label = "O"
+            label = "O";
           }
         this.slotValue!.string = label;
     }
