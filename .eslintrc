@@ -14,6 +14,7 @@
     "object": true,
     "__DEV__": true
   },
+  "ignorePatterns": ["node_modules/", "extensions/"],
   "rules": {
     "import/no-extraneous-dependencies": 0,
     "import/no-cycle": "warn",
@@ -62,7 +63,7 @@
   },
   "overrides": [
     {
-      "files": ["**/*.ts"],
+      "files": ["**/*.ts", "**/*.js"],
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
         "ecmaVersion": 2018,
