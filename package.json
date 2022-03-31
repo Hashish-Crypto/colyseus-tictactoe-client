@@ -1,12 +1,13 @@
 {
-  "name": "colyseus-tictactoe",
+  "private": true,
+  "name": "colyseus-tictactoe-client",
   "uuid": "dd428d0a-55f7-4ff0-aefb-12828589a060",
   "version": "3.4.2",
   "creator": {
     "version": "3.4.2"
   },
   "main": "index.js",
-  "repository": "https://github.com/Hashish-Crypto/cocos-2d-template.git",
+  "repository": "https://github.com/Hashish-Crypto/colyseus-tictactoe-client.git",
   "author": "Leandro Acquati <leandroacquati@gmail.com>",
   "license": "MIT",
   "description": "Turn-based demonstration project using Colyseus 0.14.0 and Cocos Creator 3.4.2.",
