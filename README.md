@@ -1,17 +1,23 @@
-# Tic Tac Toe - Cocos Creator & Colyseus
+# Tic Tac Toe - Cocos Creator & Colyseus - Client
 
-Turn-based demonstration project using [Colyseus 0.14.0](https://www.colyseus.io/) and [Cocos Creator 3.4.2](https://www.cocos.com/en/creator).
+Turn-based demonstration project using [Colyseus 0.14.0](https://www.colyseus.io/) and
+[Cocos Creator 3.4.2](https://www.cocos.com/en/creator).
 
 ## Running the server locally
 
-From the root of the project:
-
 ```
-git clone https://github.com/Hashish-Crypto/colyseus-tictactoe.git
-cd colyseus-tictactoe
-cd Server
+git clone https://github.com/Hashish-Crypto/colyseus-tictactoe-server.git
+cd colyseus-tictactoe-server
 npm install
 npm start
+```
+
+## Running the client locally
+
+```
+git clone https://github.com/Hashish-Crypto/colyseus-tictactoe-client.git
+cd colyseus-tictactoe-client
+yarn install
 ```
 
 Open Cocos Dashboard and add this project.
@@ -41,3 +47,7 @@ npm -v
 npm install -g yarn
 yarn -v
 ```
+
+## License
+
+MIT
