@@ -15,6 +15,6 @@ export class Slot extends Component {
     } else if (value === 2) {
       label = 'O'
     }
-    this.slotValue!.string = label
+    this.slotValue.string = label
   }
 }

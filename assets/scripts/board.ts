@@ -22,7 +22,7 @@ export class Board extends Component {
   private slotReferences: Array<Slot> = []
 
   initialize(owner: SceneManager) {
-    if (this.slotReferences != null && this.slotReferences.length > 0) {
+    if (this.slotReferences !== null && this.slotReferences.length > 0) {
       this.slotReferences.forEach((slot) => {
         slot.node.destroy()
       })
@@ -39,10 +39,10 @@ export class Board extends Component {
     const xPos = -this.size + x * this.size
 
     const node = instantiate(this.slotRef)
-    node!.parent = this.node
-    node!.setPosition(xPos, yPos)
-    const slot = node!.getComponent(Slot)
-    slot!.set(value)
-    this.slotReferences.push(slot!)
+    node.parent = this.node
+    node.setPosition(xPos, yPos)
+    const slot = node.getComponent(Slot)
+    slot.set(value)
+    this.slotReferences.push(slot)
   }
 }

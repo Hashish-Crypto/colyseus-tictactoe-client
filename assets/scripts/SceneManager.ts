@@ -1,8 +1,9 @@
-import { _decorator, Component, Node, Vec2, Label, Color, Input, input } from 'cc'
-import Colyseus, { Room } from 'db://colyseus-sdk/colyseus.js'
+import { _decorator, Component, Node, Vec2, Label, Color, Input, input, EventMouse } from 'cc'
+import Colyseus from 'db://colyseus-sdk/colyseus.js'
 import { Board } from './board'
 
 const { ccclass, property } = _decorator
+
 @ccclass('SceneManager')
 export class SceneManager extends Component {
   // Server connection settings
@@ -42,7 +43,7 @@ export class SceneManager extends Component {
   private gameState: string = 'MENU'
   private client: Colyseus.Client | null = null
   private room: Colyseus.Room | null = null
-  private countdownInterval: any
+  private countdownInterval: number
 
   onLoad() {
     const endpoint: string = `ws://${this.serverURL}:${this.port}`
@@ -52,7 +53,7 @@ export class SceneManager extends Component {
 
   resetGame() {
     this.gameState = 'MENU'
-    this.board!.initialize(this)
+    this.board.initialize(this)
     this.handleGameState()
   }
 
@@ -65,13 +66,13 @@ export class SceneManager extends Component {
   }
 
   handleGameState() {
-    this.menuNode!.active = this.gameState === 'MENU'
-    this.lobbyNode!.active = this.gameState === 'LOBBY'
-    this.gameNode!.active = this.gameState === 'GAME'
-    this.endgameNode!.active = this.gameState === 'ENDGAME'
+    this.menuNode.active = this.gameState === 'MENU'
+    this.lobbyNode.active = this.gameState === 'LOBBY'
+    this.gameNode.active = this.gameState === 'GAME'
+    this.endgameNode.active = this.gameState === 'ENDGAME'
   }
 
-  handleMouseClick(event: any) {
+  handleMouseClick(event: EventMouse) {
     switch (this.gameState) {
       case 'MENU': {
         this.gameState = 'LOBBY'
@@ -84,11 +85,11 @@ export class SceneManager extends Component {
 
   async connect() {
     console.log('Joining game...')
-    this.room = await this.client!.joinOrCreate('tictactoe')
+    this.room = await this.client.joinOrCreate('tictactoe')
 
     let numPlayers = 0
     this.room.state.players.onAdd = () => {
-      numPlayers++
+      numPlayers += 1
 
       if (numPlayers === 2) {
         this.onJoin()
@@ -98,7 +99,7 @@ export class SceneManager extends Component {
     this.room.state.board.onChange = (value: number, index: number) => {
       const x = index % 3
       const y = Math.floor(index / 3)
-      this.board!.set(x, y, value)
+      this.board.set(x, y, value)
     }
 
     this.room.state.listen('currentTurn', (sessionId: string) => {
@@ -108,7 +109,7 @@ export class SceneManager extends Component {
 
     this.room.state.listen('draw', () => this.showEndgame('Draw!'))
     this.room.state.listen('winner', (sessionId: string) =>
-      this.showEndgame(this.room!.sessionId === sessionId ? 'You win!' : 'You lose!')
+      this.showEndgame(this.room.sessionId === sessionId ? 'You win!' : 'You lose!')
     )
 
     this.room.state.onChange = (changes: any) => {
@@ -121,12 +122,12 @@ export class SceneManager extends Component {
   }
 
   showWinner(sessionId: string) {
-    this.showEndgame(this.room!.sessionId === sessionId ? 'You win!' : 'You lose!')
+    this.showEndgame(this.room.sessionId === sessionId ? 'You win!' : 'You lose!')
   }
 
   showEndgame(message: string) {
-    this.room!.leave()
-    this.resultsText!.string = message
+    this.room.leave()
+    this.resultsText.string = message
     this.gameState = 'ENDGAME'
     this.handleGameState()
     clearInterval(this.countdownInterval)
@@ -137,14 +138,14 @@ export class SceneManager extends Component {
   }
 
   nextTurn(playerId: string) {
-    if (playerId === this.room!.sessionId) {
-      this.statusText!.string = 'Your move!'
+    if (playerId === this.room.sessionId) {
+      this.statusText.string = 'Your move!'
     } else {
-      this.statusText!.string = "Opponent's turn..."
+      this.statusText.string = "Opponent's turn..."
     }
 
-    this.timerText!.string = '10'
-    this.timerText!.color.set(Color.fromHEX(this.timerText!.color, '#000000'))
+    this.timerText.string = '10'
+    this.timerText.color.set(Color.fromHEX(this.timerText.color, '#000000'))
   }
 
   onJoin() {
@@ -155,21 +156,21 @@ export class SceneManager extends Component {
   }
 
   turnCountdown() {
-    const currentNumber = parseInt(this.timerText!.string, 10) - 1
+    const currentNumber = parseInt(this.timerText.string, 10) - 1
 
     if (currentNumber >= 0) {
-      this.timerText!.string = currentNumber.toString()
+      this.timerText.string = currentNumber.toString()
     }
 
-    const color = this.timerText!.color
+    const color = this.timerText.color
     if (currentNumber <= 3) {
-      this.timerText!.color.set(Color.fromHEX(color, '#934e60'))
+      this.timerText.color.set(Color.fromHEX(color, '#934e60'))
     } else {
-      this.timerText!.color.set(Color.fromHEX(color, '#000000'))
+      this.timerText.color.set(Color.fromHEX(color, '#000000'))
     }
   }
 
   playerAction(pos: Vec2) {
-    this.room!.send('action', { x: pos.x, y: pos.y })
+    this.room.send('action', { x: pos.x, y: pos.y })
   }
 }

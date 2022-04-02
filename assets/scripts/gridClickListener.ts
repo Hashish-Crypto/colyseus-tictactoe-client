@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec2 } from 'cc'
+import { _decorator, Component, Node, Vec2, EventMouse } from 'cc'
 import { SceneManager } from './SceneManager'
 
 const { ccclass, property } = _decorator
@@ -21,8 +21,8 @@ export class GridClickListener extends Component {
     this.node.off(Node.EventType.MOUSE_DOWN, this.spaceClicked, this)
   }
 
-  spaceClicked(event: any) {
-    this._owner!.playerAction(this.gridPosition)
+  spaceClicked(event: EventMouse) {
+    this._owner.playerAction(this.gridPosition)
     this.unregisterForClick()
     this.node.active = false
   }
